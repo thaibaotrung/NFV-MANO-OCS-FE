@@ -1,0 +1,22 @@
+export type IDLInfor = {
+  fullName: string;
+  dateOfBirth: string;
+  gender: string;
+  country: string;
+  height: number;
+  hairColor: string;
+  eyeColor: string;
+  dlOriginalCode: string;
+  address: string;
+  dlClass: string;
+  issExp: string;
+  iamaddNo: string;
+  barCode: string;
+  thumbnailPath: string;
+  signaturePath: string;
+  passportPath: string;
+  dlBeforePath: string;
+  dlAfterPath: string;
+  idlBeforePath: string;
+  idlAfterPath: string;
+};
