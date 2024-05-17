@@ -23,7 +23,7 @@ const config: DefaultConfigProps = {
   container: true,
   mode: ThemeMode.LIGHT,
   presetColor: 'default',
-  themeDirection: ThemeDirection.LTR
+  themeDirection: ThemeDirection.LTR,
 };
 
 export default config;
