@@ -1,37 +1,29 @@
-import { lazy } from "react";
+import { lazy } from 'react';
 
 // project import
-import Loadable from "components/Loadable";
-import DashboardLayout from "layout/Dashboard";
-import { EmpList } from "pages/emp-list";
-import { EmpDetails } from "pages/emp-details";
-import { EmpScale } from "pages/emp-scale";
-import { EmpCreate } from "pages/emp-create";
-import { EmpEdit } from "pages/emp-edit";
-import { VnfdList } from "pages/vnfd-list";
-import { LcmopoccList } from "pages/lcmopocc-list";
+import Loadable from 'components/Loadable';
+import DashboardLayout from 'layout/Dashboard';
+import { EmpList } from 'pages/emp-list';
+import { EmpDetails } from 'pages/emp-details';
+import { EmpScale } from 'pages/emp-scale';
+import { EmpCreate } from 'pages/emp-create';
+import { EmpEdit } from 'pages/emp-edit';
+import { VnfdList } from 'pages/vnfd-list';
+import { LcmopoccList } from 'pages/lcmopocc-list';
 
 // render - dashboard
 // const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/default')));
 // const DashboardAnalytics = Loadable(lazy(() => import('pages/dashboard/analytics')));
 // render - applications
 
-const UserProfile = Loadable(lazy(() => import("pages/apps/profiles/user")));
-const UserTabPersonal = Loadable(
-  lazy(() => import("sections/apps/profiles/user/TabPersonal"))
-);
-const UserTabPayment = Loadable(
-  lazy(() => import("sections/apps/profiles/user/TabPayment"))
-);
-const UserTabPassword = Loadable(
-  lazy(() => import("sections/apps/profiles/user/TabPassword"))
-);
-const UserTabSettings = Loadable(
-  lazy(() => import("sections/apps/profiles/user/TabSettings"))
-);
+const UserProfile = Loadable(lazy(() => import('pages/apps/profiles/user')));
+const UserTabPersonal = Loadable(lazy(() => import('sections/apps/profiles/user/TabPersonal')));
+const UserTabPayment = Loadable(lazy(() => import('sections/apps/profiles/user/TabPayment')));
+const UserTabPassword = Loadable(lazy(() => import('sections/apps/profiles/user/TabPassword')));
+const UserTabSettings = Loadable(lazy(() => import('sections/apps/profiles/user/TabSettings')));
 
 // pages routing
-const AuthLogin = Loadable(lazy(() => import("pages/auth/login")));
+const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 // const AuthRegister = Loadable(lazy(() => import('pages/auth/register')));
 // const AuthForgotPassword = Loadable(lazy(() => import('pages/auth/forgot-password')));
 // const AuthResetPassword = Loadable(lazy(() => import('pages/auth/reset-password')));
@@ -46,44 +38,44 @@ const AuthLogin = Loadable(lazy(() => import("pages/auth/login")));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: "/",
+  path: '/',
   element: <DashboardLayout />,
 
   children: [
     {
-      path: "",
+      path: '',
 
       element: <EmpList />,
     },
     {
-      path: "/vnf/list",
+      path: '/vnf/list',
 
       element: <EmpList />,
     },
     {
-      path: "/vnfd/list",
+      path: '/vnfd/list',
 
       element: <VnfdList />,
     },
     {
-      path: "/vnfd/lcmopocc/list",
+      path: '/vnf/lcmopocc/:name',
 
       element: <LcmopoccList />,
     },
     {
-      path: "/vnf/:name",
+      path: '/vnf/details/:name',
       element: <EmpDetails />,
     },
     {
-      path: "/scale/:name",
+      path: '/vnf/scale/:name',
       element: <EmpScale />,
     },
     {
-      path: "/vnf/create",
+      path: '/vnf/create',
       element: <EmpCreate />,
     },
     {
-      path: "/employee/edit/:id",
+      path: '/employee/edit/:id',
       element: <EmpEdit />,
     },
   ],

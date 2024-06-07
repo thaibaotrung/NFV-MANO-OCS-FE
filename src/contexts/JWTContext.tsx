@@ -21,7 +21,7 @@ import { DEFAULT_API_URL } from 'config';
 const initialState: AuthProps = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null
+  user: null,
 };
 
 const axios = new AxiosCSRequest(DEFAULT_API_URL || '');
@@ -62,18 +62,18 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
           dispatch({
             type: LOGIN,
             payload: {
-              isLoggedIn: true
-            }
+              isLoggedIn: true,
+            },
           });
         } else {
           dispatch({
-            type: LOGOUT
+            type: LOGOUT,
           });
         }
       } catch (err) {
         console.error(err);
         dispatch({
-          type: LOGOUT
+          type: LOGOUT,
         });
       }
     };
@@ -83,21 +83,25 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
 
   const login = async (email: string, password: string) => {
     const response = await axios.post(
-      '/api/admin/login',
-      { username: email, password },
+      'http://127.0.0.1:8081/realms/trung/protocol/openid-connect/token',
       {
-        baseURL: DEFAULT_API_URL
+        client_id: 'quarkus-be',
+        client_secret: '0eOfr3MiW9uIbCSkIbv3JiTHufhR9rXM',
+        grant_type: 'password',
+        username: email,
+        password: password,
+      },
+      {
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
       }
     );
-    console.log('response', response.data);
-    const { token: serviceToken, payload } = response;
-    setSession(serviceToken);
+    setSession(response?.accessToken);
     dispatch({
       type: LOGIN,
       payload: {
         isLoggedIn: true,
-        user: { name: payload?.username }
-      }
+        user: { name: 'trung' },
+      },
     });
   };
 
@@ -140,7 +144,11 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     return <Loader />;
   }
 
-  return <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>;
+  return (
+    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>
+      {children}
+    </JWTContext.Provider>
+  );
 };
 
 export default JWTContext;

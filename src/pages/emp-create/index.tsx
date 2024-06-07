@@ -70,7 +70,7 @@ export const EmpCreate = () => {
               <FormikInputHairAndEyesColor
                 onValueChange={(e) => formik.setFieldValue('vnfdName', e)}
                 value={formik.values.vnfdName}
-                options={['ngocDa', 'trungTB', 'diep'].map((item) => item)}
+                options={['MERN-app'].map((item) => item)}
                 placeholder={'VNFD Name'}
                 id='vnfdName'
                 errorStatus={formik.touched.vnfdName && formik.errors.vnfdName}

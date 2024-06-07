@@ -9,8 +9,9 @@ import useAuth from 'hooks/useAuth';
 import { TableUtil } from 'utils/table';
 import { VnfStatus } from 'dto/vnf';
 import { PageDto } from 'dto/page-data-dto/page-data-dto';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { lcmRequest } from 'request/lcm';
+import { toast } from 'react-toastify';
 
 const InputImageAfterIdl = styled(TextField)(({ theme }) => ({
   display: 'none',
@@ -19,11 +20,19 @@ const InputImageAfterIdl = styled(TextField)(({ theme }) => ({
 export const VnfdList = () => {
   const [filters, setFilters] = useState<any>({});
   const { user } = useAuth();
-  const { data, isLoading } = useQuery({
+  const isLoading = false;
+  const { data, refetch } = useQuery({
     queryKey: ['getVnfdList'],
     queryFn: () => lcmRequest.getVnfdList(),
   });
 
+  const addVnfdMutation = useMutation({
+    mutationFn: () => lcmRequest.addVnfd(),
+    onSuccess: () => {
+      refetch();
+      toast.success('Add Vnfd successfully');
+    },
+  });
   const navigate = useNavigate();
   const headCells: HeadCell[] = [
     TableUtil.Thead('id', 'Id', { withSort: false }),
@@ -79,6 +88,9 @@ export const VnfdList = () => {
             p: 1,
           }}
           variant='contained'
+          onClick={() => {
+            addVnfdMutation.mutate();
+          }}
         >
           Upload
         </Button>

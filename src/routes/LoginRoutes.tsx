@@ -22,9 +22,9 @@ const LoginRoutes = {
       element: <AuthLayout />,
       children: [
         {
-          path: 'login',
-          element: <AuthLogin />
-        }
+          path: '/login',
+          element: <AuthLogin />,
+        },
         // {
         //   path: 'register',
         //   element: <AuthRegister />
@@ -45,9 +45,9 @@ const LoginRoutes = {
         //   path: 'code-verification',
         //   element: <AuthCodeVerification />
         // }
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 };
 
 export default LoginRoutes;

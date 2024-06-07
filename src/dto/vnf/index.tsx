@@ -1,4 +1,4 @@
 export enum VnfStatus {
-  STARTED = "STARTED",
-  STOPPED = "STOPPED",
+  STARTED = 'STARTED',
+  STOPPED = 'STOPPED',
 }

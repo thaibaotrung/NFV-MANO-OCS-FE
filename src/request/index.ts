@@ -27,17 +27,17 @@ export class AxiosCSRequest {
   }
 
   beforeRequest(config: CustomRequestOptions) {
-    const accessToken = localStorage.getItem('serviceToken');
+    // const accessToken = localStorage.getItem('serviceToken');
 
-    if (accessToken) {
-      config = {
-        ...config,
-        headers: {
-          ...config.headers,
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-    }
+    // if (accessToken) {
+    //   config = {
+    //     ...config,
+    //     headers: {
+    //       ...config.headers,
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   };
+    // }
     return config as any;
   }
 
@@ -51,9 +51,9 @@ export class AxiosCSRequest {
 
   handelError = async (error) => {
     if (error?.response?.status === 401 && !window.location.href.includes('/login')) {
-      store.dispatch(logoutStart(''));
-      localStorage.removeItem('serviceToken');
-      window.location.pathname = '/login';
+      // store.dispatch(logoutStart(''));
+      // localStorage.removeItem('serviceToken');
+      // window.location.pathname = '/login';
     }
     if (error.code === 'ERR_NETWORK') {
       toast.error('Network error');

@@ -12,6 +12,7 @@ import { PageDto } from 'dto/page-data-dto/page-data-dto';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { lcmRequest } from 'request/lcm';
 import { toast } from 'react-toastify';
+import { filter } from 'lodash';
 
 export const EmpList = () => {
   const [filters, setFilters] = useState<any>({});
@@ -22,14 +23,39 @@ export const EmpList = () => {
   const navigate = useNavigate();
 
   const { data, refetch } = useQuery({
-    queryKey: ['getVnfList'],
-    queryFn: () => lcmRequest.getVnfList(),
+    queryKey: ['getVnfList', filters],
+    queryFn: () => lcmRequest.getVnfList(filters?.name),
   });
+
   const deleteVnfMutation = useMutation({
     mutationFn: (param: any) => lcmRequest.deleteVnf(param),
     onSuccess: () => {
       refetch();
       toast.success('Deleted Successfully');
+    },
+  });
+
+  const instantiateVnfMutation = useMutation({
+    mutationFn: (param: any) => lcmRequest.instantiateVnf(param),
+    onSuccess: () => {
+      refetch();
+      toast.success('Instantiate Successfully');
+    },
+  });
+
+  const terminateVnfMutation = useMutation({
+    mutationFn: (param: any) => lcmRequest.terminateVnf(param),
+    onSuccess: () => {
+      refetch();
+      toast.success('Terminate Successfully');
+    },
+  });
+
+  const healingVnfMutation = useMutation({
+    mutationFn: (param: any) => lcmRequest.healingVnf(param),
+    onSuccess: () => {
+      refetch();
+      toast.success('Healing Successfully');
     },
   });
   const headCells: HeadCell[] = [
@@ -38,7 +64,7 @@ export const EmpList = () => {
     TableUtil.Thead('vnfdName', 'Vnfd Name', { withSort: false }),
     TableUtil.Thead('status', 'Status', {
       withSort: false,
-      showSelect: true,
+      showSelect: false,
       listItems: [VnfStatus.STARTED, VnfStatus.STOPPED],
     }),
     TableUtil.Thead('desciption', 'Desciption', { withSort: false }),
@@ -48,7 +74,7 @@ export const EmpList = () => {
 
   const renderItems = (item: any, index) => {
     return [
-      <TableCell align='left'>{item?.id}</TableCell>,
+      <TableCell align='left'>{item?._id}</TableCell>,
       <TableCell align='left'>{item?.name}</TableCell>,
 
       <TableCell align='left'>{item?.vnfdName}</TableCell>,
@@ -58,19 +84,49 @@ export const EmpList = () => {
       <TableCell align='left'>{item?.description}</TableCell>,
       <TableCell>
         <Stack gap={1} direction='row' spacing={0}>
-          <Button onClick={() => {}} color='success' variant='contained'>
+          <Button
+            onClick={() => {
+              instantiateVnfMutation.mutate(item?.name);
+            }}
+            color='success'
+            variant='contained'
+          >
             Instantiate
           </Button>
-          <Button onClick={() => {}} color='inherit' variant='contained'>
+          <Button
+            onClick={() => {
+              terminateVnfMutation.mutate(item?.name);
+            }}
+            color='inherit'
+            variant='contained'
+          >
             Terminate
           </Button>
-          <Button onClick={() => {}} color='info' variant='contained'>
+          <Button
+            onClick={() => {
+              navigate(`/vnf/details/${item.name}`);
+            }}
+            color='info'
+            variant='contained'
+          >
             Details
           </Button>
-          <Button onClick={() => {}} color='secondary' variant='contained'>
+          <Button
+            onClick={() => {
+              healingVnfMutation.mutate(item?.name);
+            }}
+            color='secondary'
+            variant='contained'
+          >
             Healing
           </Button>
-          <Button onClick={() => {}} color='warning' variant='contained'>
+          <Button
+            onClick={() => {
+              navigate(`/vnf/scale/${item.name}`);
+            }}
+            color='warning'
+            variant='contained'
+          >
             Scale
           </Button>
           <Button
@@ -84,7 +140,7 @@ export const EmpList = () => {
           </Button>
           <Button
             onClick={() => {
-              navigate('/vnfd/lcmopocc/list');
+              navigate(`/vnf/lcmopocc/${item.name}`);
             }}
             variant='contained'
           >
